@@ -1,7 +1,7 @@
 import { Separator } from "@/components/ui/separator";
 import { SidebarTrigger } from "@/components/ui/sidebar";
-import { IBreadcrumbBar } from "@/interfaces/shared/breadcrumb.interface";
-import { BreadcrumbBar } from "../breadcrumb/breadcrumb-bar";
+import { IBreadcrumbBar } from "@/interfaces/shared/IBreadcrumb";
+import { BreadcrumbBar } from "@/components/shared/breadcrumb/breadcrumb-bar";
 
 export default function HeaderSidebarContent({
   menuBreadcrumb,

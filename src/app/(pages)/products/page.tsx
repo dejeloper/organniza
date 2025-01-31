@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { PagesWrapper } from "@/components/shared/wrapper/wrapper";
 import { buttonVariants } from "@/components/ui/button";
-import { IBreadcrumbBar } from "@/interfaces/shared/breadcrumb.interface";
+import { IBreadcrumbBar } from "@/interfaces/shared/IBreadcrumb";
 
 function ListProductsPage() {
   const menuBreadcrumb: IBreadcrumbBar[] = [

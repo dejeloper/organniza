@@ -17,131 +17,135 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/button";
+import { zodResolver } from "@hookform/resolvers/zod";
 
-function NewPorductForm() {
-  const form = useForm({
-    defaultValues: {
-      name: "",
-      price: "",
-      place: "",
-      category: "",
-    },
+import {
+  defaultValuesNewProduct,
+  itemsCategory,
+  itemsClasification,
+  ProductType,
+  schemaNewProduct,
+} from "@/validators/products/new-form-validate";
+import { ICategory } from "@/interfaces/ICategory";
+import { IClasification } from "@/interfaces/IClasification";
+
+function NewProductForm() {
+  const form = useForm<ProductType>({
+    resolver: zodResolver(schemaNewProduct),
+    defaultValues: defaultValuesNewProduct,
+  });
+
+  const onReset = () => {
+    form.reset(defaultValuesNewProduct);
+  };
+
+  const onSubmit = form.handleSubmit(async (data: ProductType) => {
+    console.log({ msg: "Enviando información", data });
   });
 
   return (
     <Form {...form}>
-      <FormField
-        control={form.control}
-        name="name"
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel htmlFor="name">Nombre</FormLabel>
-            <FormControl>
-              <Input type="text" {...field} id="name" />
-            </FormControl>
-            <FormMessage />
-          </FormItem>
-        )}
-      />
-      <FormField
-        control={form.control}
-        name="price"
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel htmlFor="price">Precio</FormLabel>
-            <FormControl>
-              <Input type="number" {...field} id="price" />
-            </FormControl>
-            <FormMessage />
-          </FormItem>
-        )}
-      />
+      <form onSubmit={onSubmit}>
+        <div className="my-4">
+          <FormField
+            name="name"
+            control={form.control}
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel htmlFor="name">Nombre</FormLabel>
+                <FormControl>
+                  <Input type="text" {...field} id="name" autoComplete="off" />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
 
-      <FormField
-        name="place"
-        control={form.control}
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel htmlFor="place">Lugar</FormLabel>
-            <FormControl>
-              <Select {...field}>
-                <SelectTrigger>
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent id="place">
-                  <SelectItem disabled value="0" />
-                  <SelectItem value="1">D1</SelectItem>
-                  <SelectItem value="2">Zapatoca</SelectItem>
-                  <SelectItem value="3">Metro</SelectItem>
-                  <SelectItem value="4">Plaza Paloquemado</SelectItem>
-                  <SelectItem value="5">Otro</SelectItem>
-                </SelectContent>
-              </Select>
-            </FormControl>
-          </FormItem>
-        )}
-      />
+        <div className="my-4">
+          <FormField
+            name="price"
+            control={form.control}
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel htmlFor="price">Precio</FormLabel>
+                <FormControl>
+                  <Input
+                    type="number"
+                    {...field}
+                    id="price"
+                    autoComplete="off"
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
 
-      <FormField
-        name="category"
-        control={form.control}
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel htmlFor="category">Categoría</FormLabel>
-            <FormControl>
-              <Select {...field}>
-                <SelectTrigger>
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent id="category">
-                  <SelectItem disabled value="0" />
-                  <SelectItem value="1">Proteina</SelectItem>
-                  <SelectItem value="2">Carbohidratos</SelectItem>
-                  <SelectItem value="3">Frutas</SelectItem>
-                  <SelectItem value="4">Vegetales</SelectItem>
-                  <SelectItem value="5">Lácteos</SelectItem>
-                </SelectContent>
-              </Select>
-            </FormControl>
-          </FormItem>
-        )}
-      />
-      <div className="flex justify-end mt-8 gap-4">
-        <Button type="reset" variant="outline">
-          Limpiar
-        </Button>
-        <Button type="submit">Guardar</Button>
-      </div>
+        <div className="my-4">
+          <FormField
+            name="clasification"
+            control={form.control}
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel htmlFor="clasification">Clasificación</FormLabel>
+                <Select onValueChange={field.onChange} value={field.value}>
+                  <FormControl>
+                    <SelectTrigger id="clasification">
+                      <SelectValue placeholder="Seleccione la Clasificación" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    {itemsClasification.map((item: IClasification) => (
+                      <SelectItem key={item.id} value={item.name}>
+                        {item.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+
+        <div className="my-4">
+          <FormField
+            name="category"
+            control={form.control}
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel htmlFor="category">Categoría</FormLabel>
+                <Select onValueChange={field.onChange} value={field.value}>
+                  <FormControl>
+                    <SelectTrigger id="category">
+                      <SelectValue placeholder="Seleccione la Categoría" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    {itemsCategory.map((item: ICategory) => (
+                      <SelectItem key={item.id} value={item.name}>
+                        {item.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+        <div className="flex justify-end mt-8 gap-4">
+          <Button type="button" variant="outline" onClick={() => onReset()}>
+            Limpiar
+          </Button>
+          <Button type="submit">Guardar</Button>
+        </div>
+      </form>
     </Form>
   );
 }
 
-export default NewPorductForm;
-
-{
-  /* 
-<form>
-<div className="grid w-full items-center gap-4">
-	<div className="flex flex-col space-y-1.5">
-		<Label htmlFor="namePro">Name</Label>
-		<Input id="name" placeholder="Name of your project" />
-	</div>
-	<div className="flex flex-col space-y-1.5">
-		<Label htmlFor="framework">Framework</Label>
-		<Select>
-			<SelectTrigger id="framework">
-				<SelectValue placeholder="Select" />
-			</SelectTrigger>
-			<SelectContent position="popper">
-				<SelectItem value="next">Next.js</SelectItem>
-				<SelectItem value="sveltekit">SvelteKit</SelectItem>
-				<SelectItem value="astro">Astro</SelectItem>
-				<SelectItem value="nuxt">Nuxt.js</SelectItem>
-			</SelectContent>
-		</Select>
-	</div>
-</div>
-</form> 
-*/
-}
+export default NewProductForm;

@@ -7,7 +7,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { IBreadcrumbBar } from "@/interfaces/shared/breadcrumb.interface";
+import { IBreadcrumbBar } from "@/interfaces/shared/IBreadcrumb";
 
 export function BreadcrumbBar({
   menuBreadcrumb,

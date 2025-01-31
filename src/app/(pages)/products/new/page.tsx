@@ -1,7 +1,7 @@
-import NewPorductForm from "@/components/products/newForm";
+import NewProductForm from "@/components/products/newForm";
 import { Card, CardContent } from "@/components/ui/card";
 import { PagesWrapper } from "@/components/shared/wrapper/wrapper";
-import { IBreadcrumbBar } from "@/interfaces/shared/breadcrumb.interface";
+import { IBreadcrumbBar } from "@/interfaces/shared/IBreadcrumb";
 
 function NewProductPage() {
   const menuBreadcrumb: IBreadcrumbBar[] = [
@@ -28,7 +28,7 @@ function NewProductPage() {
         <div className="flex flex-col mx-auto w-full mt-4 md:mt-8">
           <Card className="w-full md:w-1/2 mx-auto">
             <CardContent className="mt-4 md:mt-8">
-              <NewPorductForm />
+              <NewProductForm />
             </CardContent>
           </Card>
         </div>

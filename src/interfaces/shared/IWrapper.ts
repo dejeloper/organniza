@@ -1,4 +1,4 @@
-import { IBreadcrumbBar } from "@/interfaces/shared/breadcrumb.interface";
+import { IBreadcrumbBar } from "@/interfaces/shared/IBreadcrumb";
 
 export interface IPagesWrapper {
   children: React.ReactNode;

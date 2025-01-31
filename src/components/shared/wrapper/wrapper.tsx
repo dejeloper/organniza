@@ -1,5 +1,5 @@
 import HeaderSidebarContent from "@/components/shared/dashboard/header-sidebar-content";
-import { IPagesWrapper } from "@/interfaces/shared/wrapper.interface";
+import { IPagesWrapper } from "@/interfaces/shared/IWrapper";
 
 export function PagesWrapper({ children, menuBreadcrumb }: IPagesWrapper) {
   return (
