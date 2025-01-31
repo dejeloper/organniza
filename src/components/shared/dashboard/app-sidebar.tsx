@@ -11,7 +11,8 @@ import {
   SidebarHeader,
   SidebarRail,
 } from "@/components/ui/sidebar";
-import { NavTeam } from "./nav-team";
+import { NavTeam } from "@/components/shared/dashboard/nav-team";
+import { ToogleThemeSidebar } from "@/components/shared/toogle-theme";
 
 const data = {
   user: {
@@ -109,6 +110,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={data.navMain} title="Sistema" />
+        <ToogleThemeSidebar />
       </SidebarContent>
       <SidebarFooter>
         <NavUser user={data.user} />
