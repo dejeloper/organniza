@@ -26,7 +26,7 @@ function NewProductPage() {
           Nuevo Producto
         </h3>
         <div className="flex flex-col mx-auto w-full mt-4 md:mt-8">
-          <Card className="w-full md:w-1/2 mx-auto">
+          <Card className="w-full lg:w-1/2 md:w-3/4 sm:w-5/6 mx-auto">
             <CardContent className="mt-4 md:mt-8">
               <NewProductForm />
             </CardContent>
