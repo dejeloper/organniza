@@ -2,8 +2,10 @@ import Link from "next/link";
 import { PagesWrapper } from "@/components/shared/wrapper/wrapper";
 import { buttonVariants } from "@/components/ui/button";
 import { IBreadcrumbBar } from "@/interfaces/shared/IBreadcrumb";
+import { getProducts } from "./products.api";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
-function ListProductsPage() {
+async function ListProductsPage() {
   const menuBreadcrumb: IBreadcrumbBar[] = [
     {
       name: "Inicio",
@@ -14,6 +16,8 @@ function ListProductsPage() {
       href: "/pages/products",
     },
   ];
+
+  const products = await getProducts();
 
   return (
     <PagesWrapper menuBreadcrumb={menuBreadcrumb}>
@@ -31,6 +35,38 @@ function ListProductsPage() {
           </Link>
         </div>
         <div className="flex flex-col m-4 ">Productos</div>
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+          {products &&
+            products.response.map((product: any) => (
+              <div key={product.id}>
+                <Card>
+                  <CardHeader>
+                    <CardTitle>{product.name}</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="font-bold">
+                      Precio:
+                      <span className="font-medium ml-2">
+                        $ {product.price}
+                      </span>
+                    </p>
+                    <p className="font-bold">
+                      Clasificación:
+                      <span className="font-medium ml-2">
+                        {product.clasification}
+                      </span>
+                    </p>
+                    <p className="font-bold">
+                      Categoría:
+                      <span className="font-medium ml-2">
+                        {product.category}
+                      </span>
+                    </p>
+                  </CardContent>
+                </Card>
+              </div>
+            ))}
+        </div>
       </div>
     </PagesWrapper>
   );

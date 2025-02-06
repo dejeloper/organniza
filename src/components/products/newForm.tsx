@@ -29,8 +29,12 @@ import {
 } from "@/validators/products/new-form-validate";
 import { ICategory } from "@/interfaces/ICategory";
 import { IClasification } from "@/interfaces/IClasification";
+import { createProduct } from "@/app/(pages)/products/products.api";
+import { useRouter } from "next/navigation";
 
 function NewProductForm() {
+  const router = useRouter();
+
   const form = useForm<ProductType>({
     resolver: zodResolver(schemaNewProduct),
     defaultValues: defaultValuesNewProduct,
@@ -41,7 +45,16 @@ function NewProductForm() {
   };
 
   const onSubmit = form.handleSubmit(async (data: ProductType) => {
-    console.log({ msg: "Enviando información", data });
+    const response = await createProduct(data);
+
+    if (!response.status) {
+      console.log(response.message);
+      return;
+    }
+
+    console.log(response.response);
+    router.push("/products");
+    router.refresh();
   });
 
   return (
