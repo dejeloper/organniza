@@ -21,7 +21,6 @@ import { Button } from "@/components/ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import {
-  defaultValuesNewProduct,
   itemsCategory,
   itemsClasification,
   ProductType,
@@ -29,30 +28,43 @@ import {
 } from "@/validators/products/new-form-validate";
 import { ICategory } from "@/interfaces/ICategory";
 import { IClasification } from "@/interfaces/IClasification";
-import { createProduct } from "@/app/(pages)/products/products.api";
-import { useRouter } from "next/navigation";
+import { createProduct, updateProduct } from "@/queries/products.api";
+import { useParams, useRouter } from "next/navigation";
+import { IProduct } from "@/interfaces/schemas/IProduct";
 
-function NewProductForm() {
+function NewProductForm({ product }: { product: IProduct | undefined }) {
   const router = useRouter();
+  const params = useParams<{ id: string }>();
 
   const form = useForm<ProductType>({
     resolver: zodResolver(schemaNewProduct),
-    defaultValues: defaultValuesNewProduct,
+    defaultValues: {
+      name: product?.name ?? "",
+      price: product?.price ?? 0,
+      clasification: product?.clasification ?? "",
+      category: product?.category ?? "",
+    },
   });
 
-  const onReset = () => {
-    form.reset(defaultValuesNewProduct);
-  };
-
   const onSubmit = form.handleSubmit(async (data: ProductType) => {
-    const response = await createProduct(data);
+    if (params?.id) {
+      const response = await updateProduct(Number(params.id), data);
 
-    if (!response.status) {
-      console.log(response.message);
-      return;
+      if (!response.status) {
+        console.log(response.message);
+        return;
+      }
+      console.log(response.response);
+    } else {
+      const response = await createProduct(data);
+
+      if (!response.status) {
+        console.log(response.message);
+        return;
+      }
+      console.log(response.response);
     }
 
-    console.log(response.response);
     router.push("/products");
     router.refresh();
   });
@@ -151,10 +163,9 @@ function NewProductForm() {
           />
         </div>
         <div className="flex justify-end mt-8 gap-4">
-          <Button type="button" variant="outline" onClick={() => onReset()}>
-            Limpiar
+          <Button type="submit">
+            {params.id ? "Actualizar Producto" : "Crear Producto"}
           </Button>
-          <Button type="submit">Guardar</Button>
         </div>
       </form>
     </Form>

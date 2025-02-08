@@ -2,8 +2,30 @@ import NewProductForm from "@/components/products/newForm";
 import { Card, CardContent } from "@/components/ui/card";
 import { PagesWrapper } from "@/components/shared/wrapper/wrapper";
 import { IBreadcrumbBar } from "@/interfaces/shared/IBreadcrumb";
+import { getProduct } from "@/queries/products.api";
+import { IProduct } from "@/interfaces/schemas/IProduct";
+import { redirect } from "next/navigation";
 
-function NewProductPage() {
+interface Props {
+  params: {
+    id: string;
+  };
+}
+
+async function NewProductPage({ params }: Props) {
+  const { id } = await params;
+
+  let product: IProduct | undefined;
+
+  if (id) {
+    const response = await getProduct(Number(id));
+    if (!response.status) {
+      redirect("/products");
+    } else {
+      product = response.response;
+    }
+  }
+
   const menuBreadcrumb: IBreadcrumbBar[] = [
     {
       name: "Inicio",
@@ -11,11 +33,11 @@ function NewProductPage() {
     },
     {
       name: "Productos",
-      href: "/pages/products",
+      href: "/products",
     },
     {
-      name: "Agregar Producto",
-      href: "/pages/products/new",
+      name: id ? "Editar Producto" : "Crear Producto",
+      href: "#",
     },
   ];
 
@@ -23,12 +45,12 @@ function NewProductPage() {
     <PagesWrapper menuBreadcrumb={menuBreadcrumb}>
       <div className="flex flex-col justify-center m-4">
         <h3 className="mb-4 text-2xl font-extrabold text-center leading-none tracking-tight text-foreground md:text-3xl lg:text-4xl">
-          Nuevo Producto
+          {id ? "Editar Producto" : "Crear Producto"}
         </h3>
         <div className="flex flex-col mx-auto w-full mt-4 md:mt-8">
           <Card className="w-full lg:w-1/2 md:w-3/4 sm:w-5/6 mx-auto border-0 shadow-form">
-            <CardContent className="mt-4 md:mt-8">
-              <NewProductForm />
+            <CardContent>
+              <NewProductForm product={product} />
             </CardContent>
           </Card>
         </div>

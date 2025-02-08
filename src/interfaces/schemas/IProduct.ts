@@ -1,9 +1,10 @@
-import { ICategory } from "@/interfaces/ICategory";
-import { IClasification } from "@/interfaces/IClasification";
-
 export interface IProduct {
-  name: string;
-  price: number;
-  clasification?: IClasification;
-  category?: ICategory;
-}
+  id?: number;
+  name?: string;
+  price?: number;
+  clasification?: string;
+  category?: string;
+  enabled?: boolean;
+  createdAt?: Date;
+  updatedAt?: Date;
+} 
