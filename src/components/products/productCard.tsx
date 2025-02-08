@@ -9,7 +9,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { removeProduct } from "@/queries/products.api";
+import { apiService } from "@/services/apiServices";
 import { IProduct } from "@/interfaces/schemas/IProduct";
 
 export function ProductCard({ product }: { product: IProduct }) {
@@ -18,18 +18,18 @@ export function ProductCard({ product }: { product: IProduct }) {
 
   const handlerRemoveProduct = async (id?: number) => {
     if (!id) return;
+
     const isConfirmed = confirm(
       "¿Estás seguro de que deseas eliminar este producto?"
     );
 
-    if (!isConfirmed) {
+    if (!isConfirmed) return;
+
+    const responseProduct = await apiService.delete("products", id);
+
+    if (!responseProduct.status) {
+      console.log(responseProduct.message);
       return;
-    }
-
-    const response = await removeProduct(id);
-
-    if (!response.status) {
-      console.log(response.message);
     }
 
     router.refresh();

@@ -28,7 +28,7 @@ import {
 } from "@/validators/products/new-form-validate";
 import { ICategory } from "@/interfaces/ICategory";
 import { IClasification } from "@/interfaces/IClasification";
-import { createProduct, updateProduct } from "@/queries/products.api";
+import { apiService } from "@/services/apiServices";
 import { useParams, useRouter } from "next/navigation";
 import { IProduct } from "@/interfaces/schemas/IProduct";
 
@@ -47,24 +47,23 @@ function NewProductForm({ product }: { product: IProduct | undefined }) {
   });
 
   const onSubmit = form.handleSubmit(async (data: ProductType) => {
+    let responseProduct;
     if (params?.id) {
-      const response = await updateProduct(Number(params.id), data);
-
-      if (!response.status) {
-        console.log(response.message);
-        return;
-      }
-      console.log(response.response);
+      responseProduct = await apiService.update(
+        "products",
+        Number(params.id),
+        data
+      );
     } else {
-      const response = await createProduct(data);
-
-      if (!response.status) {
-        console.log(response.message);
-        return;
-      }
-      console.log(response.response);
+      responseProduct = await apiService.create("products", data);
     }
 
+    if (!responseProduct.status) {
+      console.log(responseProduct.message);
+      return;
+    }
+
+    console.log(responseProduct.response);
     router.push("/products");
     router.refresh();
   });

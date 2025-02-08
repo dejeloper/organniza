@@ -1,10 +1,9 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { getProduct } from "@/queries/products.api";
+import { apiService } from "@/services/apiServices";
 import { PagesWrapper } from "@/components/shared/wrapper/wrapper";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { IBreadcrumbBar } from "@/interfaces/shared/IBreadcrumb";
-import { buttonVariants } from "@/components/ui/button";
 import { IProduct } from "@/interfaces/schemas/IProduct";
 
 interface ProductDetailProps {
@@ -15,12 +14,12 @@ interface ProductDetailProps {
 
 async function ProductDetail({ params }: ProductDetailProps) {
   const { id } = await params;
+  const responseProduct = await apiService.getById("products", id);
 
-  const response = await getProduct(Number(id));
-  if (!response.status) {
+  if (!responseProduct.status) {
     redirect("/products");
   }
-  const product: IProduct = response.response;
+  const product: IProduct = responseProduct.response;
 
   const menuBreadcrumb: IBreadcrumbBar[] = [
     {

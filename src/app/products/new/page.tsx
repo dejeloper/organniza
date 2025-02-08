@@ -2,9 +2,9 @@ import NewProductForm from "@/components/products/newForm";
 import { Card, CardContent } from "@/components/ui/card";
 import { PagesWrapper } from "@/components/shared/wrapper/wrapper";
 import { IBreadcrumbBar } from "@/interfaces/shared/IBreadcrumb";
-import { getProduct } from "@/queries/products.api";
 import { IProduct } from "@/interfaces/schemas/IProduct";
 import { redirect } from "next/navigation";
+import { apiService } from "@/services/apiServices";
 
 interface Props {
   params: {
@@ -18,11 +18,12 @@ async function NewProductPage({ params }: Props) {
   let product: IProduct | undefined;
 
   if (id) {
-    const response = await getProduct(Number(id));
-    if (!response.status) {
+    const responseProduct = await apiService.getById("products", id);
+
+    if (!responseProduct.status) {
       redirect("/products");
     } else {
-      product = response.response;
+      product = responseProduct.response;
     }
   }
 

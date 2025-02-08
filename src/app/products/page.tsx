@@ -2,7 +2,7 @@ import Link from "next/link";
 import { PagesWrapper } from "@/components/shared/wrapper/wrapper";
 import { buttonVariants } from "@/components/ui/button";
 import { IBreadcrumbBar } from "@/interfaces/shared/IBreadcrumb";
-import { getProducts } from "@/queries/products.api";
+import { apiService } from "@/services/apiServices";
 import { ProductCard } from "@/components/products/productCard";
 import { IProduct } from "@/interfaces/schemas/IProduct";
 
@@ -18,7 +18,8 @@ async function ListProductsPage() {
     },
   ];
 
-  const products = await getProducts();
+  const responseProducts = await apiService.getAll("products");
+
   return (
     <PagesWrapper menuBreadcrumb={menuBreadcrumb}>
       <div className="flex flex-col justify-center m-4 ">
@@ -34,9 +35,9 @@ async function ListProductsPage() {
             Nuevo Producto
           </Link>
         </div>
-        {products && products.status ? (
+        {responseProducts && responseProducts.status ? (
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {products.response.map((product: IProduct) => (
+            {responseProducts.response.map((product: IProduct) => (
               <div key={product.id}>
                 <ProductCard product={product} />
               </div>
