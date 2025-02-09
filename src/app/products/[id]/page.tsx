@@ -20,11 +20,11 @@ async function ProductDetail({ params }: ProductProps) {
     if (responseProduct.status && responseProduct.response) {
       product = responseProduct.response as IProduct;
     } else {
-      console.error("Error al obtener el producto:", responseProduct.message);
+      console.log("Error al obtener el producto:", responseProduct.message);
       redirect("/products");
     }
   } catch (error) {
-    console.error("Error al obtener el producto:", error);
+    console.log("Error al obtener el producto:", error);
     redirect("/products");
   }
 

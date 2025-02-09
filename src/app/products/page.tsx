@@ -20,10 +20,10 @@ async function ListProductsPage() {
     if (responseProducts.status && Array.isArray(responseProducts.response)) {
       products = responseProducts.response as IProduct[];
     } else {
-      console.error("Unexpected response format:", responseProducts);
+      console.log(responseProducts.message);
     }
   } catch (error) {
-    console.error("Error fetching products:", error);
+    console.log("Error al obtener los productos", error);
   }
 
   return (
