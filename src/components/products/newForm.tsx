@@ -67,8 +67,8 @@ function NewProductForm({ product }: { product: IProduct | undefined }) {
     }
 
     console.log(responseProduct.response);
-    router.push("/products");
     router.refresh();
+    router.push("/products");
   });
 
   return (
