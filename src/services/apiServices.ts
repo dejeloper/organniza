@@ -18,8 +18,8 @@ const request = async <T = unknown>(
 			method,
 			headers: {
 				"Content-Type": "application/json",
-				"cache": "no-store",
 			},
+			cache: "no-store",
 			body: body ? JSON.stringify(body) : undefined,
 		});
 
