@@ -1,6 +1,5 @@
 "use client";
 
-import { useTransition } from "react";
 import { useForm } from "react-hook-form";
 import {
   Form,
@@ -32,12 +31,10 @@ import { IClasification } from "@/interfaces/IClasification";
 import { apiService } from "@/services/apiServices";
 import { useParams, useRouter } from "next/navigation";
 import { IProduct } from "@/interfaces/schemas/IProduct";
-import { saveProduct } from "./saveProduct";
 
 function NewProductForm({ product }: { product: IProduct | undefined }) {
   const router = useRouter();
   const params = useParams<{ id: string }>();
-  const [isPending, startTransition] = useTransition();
 
   const form = useForm<ProductType>({
     resolver: zodResolver(schemaNewProduct),
@@ -49,18 +46,29 @@ function NewProductForm({ product }: { product: IProduct | undefined }) {
     },
   });
 
-  const onSubmit = form.handleSubmit((data) => {
-    startTransition(async () => {
-      const response = await saveProduct(params?.id || null, data);
+  const onSubmit = form.handleSubmit(async (data: ProductType) => {
+    let responseProduct;
+    if (params?.id) {
+      responseProduct = await apiService.update<Partial<IProduct>, IProduct>(
+        "products",
+        Number(params.id),
+        data
+      );
+    } else {
+      responseProduct = await apiService.create<IProduct, IProduct>(
+        "products",
+        data
+      );
+    }
 
-      if (!response.status) {
-        console.log(response.message);
-        return;
-      }
+    if (!responseProduct.status) {
+      console.log(responseProduct.message);
+      return;
+    }
 
-      console.log(response.response);
-      router.push("/products");
-    });
+    console.log(responseProduct.response);
+    router.push("/products");
+    router.refresh();
   });
 
   return (
