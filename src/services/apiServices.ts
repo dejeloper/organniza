@@ -13,7 +13,8 @@ const request = async <T = unknown>(
 	body?: unknown
 ): Promise<IResponse<T>> => {
 	try {
-		const res = await fetch(`${BACKEND_URL}/api/${collection}${endpoint}`, {
+		const url = `${BACKEND_URL}/api/${collection}${endpoint}`;
+		const res = await fetch(url, {
 			method,
 			headers: {
 				"Content-Type": "application/json",
