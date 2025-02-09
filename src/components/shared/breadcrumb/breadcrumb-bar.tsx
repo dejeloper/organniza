@@ -37,6 +37,21 @@ export function BreadcrumbBar({
             ))}
         </BreadcrumbList>
       </Breadcrumb>
+
+      <Breadcrumb className="md:hidden flex">
+        <BreadcrumbList className="flex items-center gap-2">
+          {menuBreadcrumb?.length > 0 && (
+            <>
+              <BreadcrumbSeparator />
+              <BreadcrumbItem>
+                <BreadcrumbPage className="cursor-default">
+                  {menuBreadcrumb[menuBreadcrumb.length - 1].name}
+                </BreadcrumbPage>
+              </BreadcrumbItem>
+            </>
+          )}
+        </BreadcrumbList>
+      </Breadcrumb>
     </>
   );
 }
