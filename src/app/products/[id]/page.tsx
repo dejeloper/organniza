@@ -4,6 +4,12 @@ import { PagesWrapper } from "@/components/shared/wrapper/wrapper";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { IBreadcrumbBar } from "@/interfaces/shared/IBreadcrumb";
 import { IProduct } from "@/interfaces/schemas/IProduct";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Ver Producto | Organniza",
+  description: "Bienvenido a Organniza, tu aplicación para organizar la vida.",
+};
 
 interface ProductProps {
   params: Promise<{ id: string }>;

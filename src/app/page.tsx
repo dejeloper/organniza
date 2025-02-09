@@ -1,4 +1,10 @@
 import { PagesWrapper } from "@/components/shared/wrapper/wrapper";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Inicio | Organniza",
+  description: "Bienvenido a Organniza, tu aplicación para organizar la vida.",
+};
 
 function HomePage() {
   const menuBreadcrumb = [
@@ -15,13 +21,6 @@ function HomePage() {
           Hola, esto es Organniza
         </h1>
       </div>
-      {/* <h2 className="text-2xl font-bold">Hola, esto es Organniza</h2>
-      <div className="grid auto-rows-min gap-4 md:grid-cols-3">
-        <div className="aspect-video rounded-xl bg-muted/50" />
-        <div className="aspect-video rounded-xl bg-muted/50" />
-        <div className="aspect-video rounded-xl bg-muted/50" />
-      </div>
-      <div className="min-h-[100vh] flex-1 rounded-xl bg-muted/50 md:min-h-min" /> */}
     </PagesWrapper>
   );
 }

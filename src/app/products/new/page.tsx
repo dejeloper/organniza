@@ -5,6 +5,12 @@ import { IBreadcrumbBar } from "@/interfaces/shared/IBreadcrumb";
 import { IProduct } from "@/interfaces/schemas/IProduct";
 import { redirect } from "next/navigation";
 import { apiService } from "@/services/apiServices";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Crear Producto | Organniza",
+  description: "Bienvenido a Organniza, tu aplicación para organizar la vida.",
+};
 
 interface ProductProps {
   params: Promise<{ id: string }>;

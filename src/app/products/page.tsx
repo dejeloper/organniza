@@ -5,6 +5,12 @@ import { IBreadcrumbBar } from "@/interfaces/shared/IBreadcrumb";
 import { apiService } from "@/services/apiServices";
 import { ProductCard } from "@/components/products/productCard";
 import { IProduct } from "@/interfaces/schemas/IProduct";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Productos | Organniza",
+  description: "Bienvenido a Organniza, tu aplicación para organizar la vida.",
+};
 
 async function ListProductsPage() {
   const menuBreadcrumb: IBreadcrumbBar[] = [
