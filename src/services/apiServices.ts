@@ -3,15 +3,15 @@ import {IResponse} from "@/interfaces/shared/IResponse";
 const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
 if (!BACKEND_URL) {
-	throw new Error("BACKEND_URL is not defined in environment variables");
+	throw new Error("La variable de entorno NEXT_PUBLIC_BACKEND_URL no está definida");
 }
 
-const request = async (
+const request = async <T = unknown>(
 	collection: string,
 	endpoint: string = "",
 	method: "GET" | "POST" | "PATCH" | "DELETE",
 	body?: unknown
-): Promise<IResponse> => {
+): Promise<IResponse<T>> => {
 	try {
 		const res = await fetch(`${BACKEND_URL}/api/${collection}${endpoint}`, {
 			method,
@@ -27,21 +27,31 @@ const request = async (
 			throw new Error(errorData.message || "Ocurrió un error inesperado");
 		}
 
-		return await res.json();
+		const data: IResponse<T> = await res.json();
+		return data;
 	} catch (error) {
 		return {
 			status: false,
 			message: error instanceof Error ? error.message : "Error desconocido",
-			response: undefined,
+			response: undefined as unknown as T,
 		};
 	}
 };
 
+
 export const apiService = {
-	create: <T>(collection: string, data: T) => request(collection, "", "POST", data),
-	getAll: (collection: string) => request(collection, "", "GET"),
-	getById: (collection: string, id: string | number) => request(collection, `/${id}`, "GET"),
-	update: <T>(collection: string, id: string | number, data: T) =>
+	create: async <T, R = unknown>(collection: string, data: T): Promise<IResponse<R>> =>
+		request(collection, "", "POST", data),
+
+	getAll: async <T = unknown>(collection: string): Promise<IResponse<T>> =>
+		request(collection, "", "GET"),
+
+	getById: async <T = unknown>(collection: string, id: string | number): Promise<IResponse<T>> =>
+		request(collection, `/${id}`, "GET"),
+
+	update: async <T, R = unknown>(collection: string, id: string | number, data: T): Promise<IResponse<R>> =>
 		request(collection, `/${id}`, "PATCH", data),
-	delete: (collection: string, id: string | number) => request(collection, `/${id}`, "DELETE"),
+
+	delete: async <R = unknown>(collection: string, id: string | number): Promise<IResponse<R>> =>
+		request(collection, `/${id}`, "DELETE"),
 };
