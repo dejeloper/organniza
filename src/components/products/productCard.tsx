@@ -2,13 +2,6 @@
 
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import { apiService } from "@/services/apiServices";
 import { IProduct } from "@/interfaces/schemas/IProduct";
 
