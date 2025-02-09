@@ -5,7 +5,6 @@ import { IBreadcrumbBar } from "@/interfaces/shared/IBreadcrumb";
 import { apiService } from "@/services/apiServices";
 import { ProductCard } from "@/components/products/productCard";
 import { IProduct } from "@/interfaces/schemas/IProduct";
-import { IResponse } from "@/interfaces/shared/IResponse";
 
 async function ListProductsPage() {
   const menuBreadcrumb: IBreadcrumbBar[] = [
@@ -16,12 +15,12 @@ async function ListProductsPage() {
   let products: IProduct[] = [];
 
   try {
-    const response: IResponse = await apiService.getAll("products");
+    const responseProducts = await apiService.getAll<IProduct[]>("products");
 
-    if (response.status && Array.isArray(response.response)) {
-      products = response.response as IProduct[];
+    if (responseProducts.status && Array.isArray(responseProducts.response)) {
+      products = responseProducts.response as IProduct[];
     } else {
-      console.error("Unexpected response format:", response);
+      console.error("Unexpected response format:", responseProducts);
     }
   } catch (error) {
     console.error("Error fetching products:", error);

@@ -5,19 +5,17 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { IBreadcrumbBar } from "@/interfaces/shared/IBreadcrumb";
 import { IProduct } from "@/interfaces/schemas/IProduct";
 
-interface ProductDetailProps {
-  params: {
-    id: string;
-  };
+interface ProductProps {
+  params: Promise<{ id: string }>;
 }
 
-async function ProductDetail({ params }: ProductDetailProps) {
-  const { id } = params;
+async function ProductDetail({ params }: ProductProps) {
+  const { id } = await params;
   const title = "Ver Producto";
   let product: IProduct | undefined;
 
   try {
-    const responseProduct = await apiService.getById("products", id);
+    const responseProduct = await apiService.getById<IProduct>("products", id);
 
     if (responseProduct.status && responseProduct.response) {
       product = responseProduct.response as IProduct;

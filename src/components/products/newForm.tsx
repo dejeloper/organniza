@@ -49,13 +49,16 @@ function NewProductForm({ product }: { product: IProduct | undefined }) {
   const onSubmit = form.handleSubmit(async (data: ProductType) => {
     let responseProduct;
     if (params?.id) {
-      responseProduct = await apiService.update(
+      responseProduct = await apiService.update<Partial<IProduct>, IProduct>(
         "products",
         Number(params.id),
         data
       );
     } else {
-      responseProduct = await apiService.create("products", data);
+      responseProduct = await apiService.create<IProduct, IProduct>(
+        "products",
+        data
+      );
     }
 
     if (!responseProduct.status) {

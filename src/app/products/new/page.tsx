@@ -6,23 +6,24 @@ import { IProduct } from "@/interfaces/schemas/IProduct";
 import { redirect } from "next/navigation";
 import { apiService } from "@/services/apiServices";
 
-interface Props {
-  params: {
-    id?: string;
-  };
+interface ProductProps {
+  params: Promise<{ id: string }>;
 }
 
-async function NewProductPage({ params }: Props) {
-  const { id } = params;
+async function NewProductPage({ params }: ProductProps) {
+  const { id } = await params;
   const title = id ? "Editar Producto" : "Crear Producto";
   let product: IProduct | undefined;
 
   if (id) {
     try {
-      const responseProduct = await apiService.getById("products", id);
+      const responseProduct = await apiService.getById<IProduct>(
+        "products",
+        id
+      );
 
       if (responseProduct.status && responseProduct.response) {
-        product = responseProduct.response as IProduct;
+        product = responseProduct.response;
       } else {
         console.error("Error al obtener el producto:", responseProduct);
         redirect("/products");

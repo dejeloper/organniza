@@ -25,7 +25,7 @@ export function ProductCard({ product }: { product: IProduct }) {
 
     if (!isConfirmed) return;
 
-    const responseProduct = await apiService.delete("products", id);
+    const responseProduct = await apiService.delete<IProduct>("products", id);
 
     if (!responseProduct.status) {
       console.log(responseProduct.message);
