@@ -1,10 +1,25 @@
+import {ICategory} from "../ICategory";
+import {IPlace} from "../shared/IPlace";
+import {IProductStatus} from "../shared/IStatus";
+import {IUnit} from "../shared/IUnit";
+
 export interface IProduct {
   id?: number;
-  name?: string;
-  price?: number;
-  clasification?: string;
-  category?: string;
+  name: string;
+  description: string;
+  unitId: number;
+  price: number;
+  categoryId: number;
+  placeId: number;
+  statusId: number;
+  observation?: string;
+  image?: string;
   enabled?: boolean;
-  createdAt?: Date;
-  updatedAt?: Date;
-} 
+  createdAt?: string;
+  updatedAt?: string;
+
+  unit?: IUnit;
+  category?: ICategory;
+  place?: IPlace;
+  status?: IProductStatus;
+}

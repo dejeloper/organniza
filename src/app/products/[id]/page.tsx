@@ -63,13 +63,13 @@ async function ProductDetail({ params }: ProductProps) {
               <p className="font-bold">
                 Clasificación:
                 <span className="font-medium ml-2">
-                  {product?.clasification ?? "No disponible"}
+                  {product?.place?.name ?? "No disponible"}
                 </span>
               </p>
               <p className="font-bold">
                 Categoría:
                 <span className="font-medium ml-2">
-                  {product?.category ?? "No disponible"}
+                  {product?.category?.name ?? "No disponible"}
                 </span>
               </p>
             </CardContent>
