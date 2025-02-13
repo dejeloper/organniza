@@ -6,6 +6,7 @@ import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { apiService } from "@/services/apiServices";
 import { IProduct } from "@/interfaces/schemas/IProduct";
 import PriceChangeIndicator from "./priceChangeIndicator";
+import Image from "next/image";
 
 export function ProductCard({ product }: { product: IProduct }) {
   const router = useRouter();
@@ -42,11 +43,14 @@ export function ProductCard({ product }: { product: IProduct }) {
         onClick={() => product.id && router.push(`/products/${product.id}`)}
       >
         <CardContent className="p-0 m-0">
-          <img
-            src="https://images.unsplash.com/photo-1536304993881-ff6e9eefa2a6"
-            alt="Arroz"
-            className="w-full h-44 object-cover rounded-lg mb-4"
+          <Image
+            src="/products/mercado.jpg"
+            alt="mercado"
+            width={600}
+            height={176}
+            className="rounded-lg mb-4"
           />
+
           <div className="flex justify-between items-center mb-2">
             <h2 className="text-lg font-semibold text-white">{product.name}</h2>
             <span className="bg-blue-600 text-white text-xs px-3 py-1 rounded-full">

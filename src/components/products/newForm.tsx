@@ -60,6 +60,7 @@ const statuses: IProductStatus[] = [
 function NewProductForm({ product }: { product: IProduct | undefined }) {
   const router = useRouter();
   const params = useParams<{ id: string }>();
+  console.log(product);
 
   const schemaNewProduct = z.object({
     name: z.string().min(1, "El nombre es obligatorio"),
