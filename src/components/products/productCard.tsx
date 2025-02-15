@@ -38,11 +38,7 @@ export function ProductCard({ product }: { product: IProduct }) {
 
   return (
     <>
-      <Card
-        className="p-6 rounded-xl shadow-lg flex flex-col transition-transform hover:scale-105 cursor-pointer dark:hover:bg-gray-900 hover:bg-neutral-200 
-        "
-        onClick={() => product.id && router.push(`/products/${product.id}`)}
-      >
+      <Card className="p-6 rounded-xl shadow-lg flex flex-col transition-transform hover:scale-105 cursor-pointer dark:hover:bg-gray-900 hover:bg-neutral-200">
         <CardContent className="p-0 m-0">
           <Image
             src="/products/mercado.jpg"
