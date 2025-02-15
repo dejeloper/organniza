@@ -60,7 +60,6 @@ const statuses: IProductStatus[] = [
 function NewProductForm({ product }: { product: IProduct | undefined }) {
   const router = useRouter();
   const params = useParams<{ id: string }>();
-  console.log(product);
 
   const schemaNewProduct = z.object({
     name: z.string().min(1, "El nombre es obligatorio"),
@@ -82,15 +81,15 @@ function NewProductForm({ product }: { product: IProduct | undefined }) {
   const form = useForm<ProductType>({
     resolver: zodResolver(schemaNewProduct),
     defaultValues: {
-      name: "",
-      description: "",
-      unitId: 0,
-      price: 0,
-      categoryId: 0,
-      placeId: 0,
-      statusId: 0,
-      observation: "",
-      image: "",
+      name: product?.name ?? "",
+      description: product?.description ?? "",
+      unitId: product?.unitId ?? 0,
+      price: product?.price ?? 0,
+      categoryId: product?.categoryId ?? 0,
+      placeId: product?.placeId ?? 0,
+      statusId: product?.statusId ?? 0,
+      observation: product?.observation ?? "",
+      image: product?.image ?? "",
     },
   });
 
