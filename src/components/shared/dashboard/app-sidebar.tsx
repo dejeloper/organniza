@@ -83,19 +83,19 @@ const data = {
       items: [
         {
           title: "Lugares",
-          url: "#/market/places",
+          url: "/config/places",
         },
         {
-          title: "Clasificaciones",
-          url: "#/market/classifications",
+          title: "Unidades",
+          url: "/config/units",
         },
         {
           title: "Categorias",
-          url: "#/market/categories",
+          url: "/config/categories",
         },
         {
-          title: "Prioridades",
-          url: "#/market/priorities",
+          title: "Estados de Productos",
+          url: "/config/productstatus",
         },
       ],
     },
