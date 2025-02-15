@@ -17,7 +17,7 @@ async function ListConfigPlacesPage() {
   let places: IPlace[] = [];
 
   try {
-    const responsePlaces = await apiService.getAll<IPlace[]>("places");
+    const responsePlaces = await apiService.getAll<IPlace[]>("config/places");
 
     if (responsePlaces.status && Array.isArray(responsePlaces.response)) {
       places = responsePlaces.response as IPlace[];
