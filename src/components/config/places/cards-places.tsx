@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Card,
   CardContent,
@@ -77,6 +79,11 @@ export default function CardsPlaces({ places }: CardsPlacesProps) {
             <Button
               variant="outline"
               className="border border-red-500 px-4 py-2 rounded-lg hover:bg-red-500/60 transition"
+              onClick={(e) => {
+                e.stopPropagation();
+                if (!place.id) return;
+                handlerRemovePlace(place.id);
+              }}
             >
               ❌ Eliminar
             </Button>
