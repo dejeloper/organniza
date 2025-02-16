@@ -2,7 +2,6 @@ import { Card, CardContent } from "@/components/ui/card";
 import { PagesWrapper } from "@/components/shared/wrapper/wrapper";
 import { IBreadcrumbBar } from "@/interfaces/shared/IBreadcrumb";
 import { redirect } from "next/navigation";
-import { apiService } from "@/services/apiServices";
 import { Metadata } from "next";
 import { IPlace } from "@/interfaces/shared/IPlace";
 import NewPlaceForm from "@/components/config/places/new-place-form";
