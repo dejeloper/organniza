@@ -19,6 +19,8 @@ interface TablePlacesProps {
 
 export default function TablePlaces({ places }: TablePlacesProps) {
   const router = useRouter();
+  router.refresh();
+
   if (!places) return null;
 
   const handlerRemovePlace = async (id?: number) => {

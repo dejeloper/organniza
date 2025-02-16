@@ -18,6 +18,7 @@ interface CardsPlacesProps {
 
 export default function CardsPlaces({ places }: CardsPlacesProps) {
   const router = useRouter();
+  router.refresh();
   if (!places) return null;
 
   const handlerRemovePlace = async (id?: number) => {
