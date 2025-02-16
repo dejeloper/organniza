@@ -3,7 +3,6 @@
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
-import { apiService } from "@/services/apiServices";
 import { IProduct } from "@/interfaces/schemas/IProduct";
 import PriceChangeIndicator from "./priceChangeIndicator";
 import Image from "next/image";
@@ -21,7 +20,7 @@ export function ProductCard({ product }: { product: IProduct }) {
 
     if (!isConfirmed) return;
 
-    const responseProduct = await apiService.delete<IProduct>("products", id);
+    const responseProduct = await null; //  apiService.delete<IProduct>("products", id);
 
     if (!responseProduct.status) {
       console.log(responseProduct.message);

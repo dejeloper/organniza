@@ -4,7 +4,6 @@ import { PagesWrapper } from "@/components/shared/wrapper/wrapper";
 import { IBreadcrumbBar } from "@/interfaces/shared/IBreadcrumb";
 import { IProduct } from "@/interfaces/schemas/IProduct";
 import { redirect } from "next/navigation";
-import { apiService } from "@/services/apiServices";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -23,10 +22,11 @@ async function NewProductPage({ params }: ProductProps) {
 
   if (id) {
     try {
-      const responseProduct = await apiService.getById<IProduct>(
-        "products",
-        id
-      );
+      const responseProduct = await null;
+      // apiService.getById<IProduct>(
+      //   "products",
+      //   id
+      // );
 
       if (responseProduct.status && responseProduct.response) {
         product = responseProduct.response;
