@@ -11,7 +11,6 @@ import {
 import { Button } from "@/components/ui/button";
 import { IPlace } from "@/interfaces/shared/IPlace";
 import { useRouter } from "next/navigation";
-import { supabase } from "@/lib/supabaseClient";
 import { apiService } from "@/services/apiServices";
 
 interface TablePlacesProps {
@@ -22,6 +21,7 @@ export default function TablePlaces({ places }: TablePlacesProps) {
   const router = useRouter();
 
   if (!places) return null;
+
   const handlerRemovePlace = async (id?: number) => {
     if (!id) return;
 

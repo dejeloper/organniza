@@ -10,7 +10,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { IPlace } from "@/interfaces/shared/IPlace";
 import { useRouter } from "next/navigation";
-import { supabase } from "@/lib/supabaseClient";
+import { apiService } from "@/services/apiServices";
 
 interface CardsPlacesProps {
   places: IPlace[];
@@ -18,7 +18,7 @@ interface CardsPlacesProps {
 
 export default function CardsPlaces({ places }: CardsPlacesProps) {
   const router = useRouter();
-  router.refresh();
+
   if (!places) return null;
 
   const handlerRemovePlace = async (id?: number) => {
@@ -30,14 +30,19 @@ export default function CardsPlaces({ places }: CardsPlacesProps) {
 
     if (!isConfirmed) return;
 
-    const { error } = await supabase.from("Place").delete().eq("id", id);
+    try {
+      const response = await apiService.delete("Place", id);
 
-    if (error) {
-      console.log("Error al eliminar el lugar:", error.message);
-      return;
+      if (!response.status) {
+        console.error("Error al eliminar el lugar:", response.message);
+        return;
+      }
+
+      console.log("Lugar eliminado exitosamente.");
+      router.refresh();
+    } catch (error) {
+      console.error("Error inesperado al eliminar el lugar:", error);
     }
-
-    router.refresh();
   };
 
   return (
