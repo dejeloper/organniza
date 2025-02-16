@@ -14,8 +14,8 @@ import { Button } from "@/components/ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useParams, useRouter } from "next/navigation";
 import { IPlace } from "@/interfaces/shared/IPlace";
+import { apiService } from "@/services/apiServices";
 import { z } from "zod";
-import { supabase } from "@/lib/supabaseClient";
 
 function NewPlaceForm({ place }: { place: IPlace | undefined }) {
   const router = useRouter();
@@ -45,48 +45,38 @@ function NewPlaceForm({ place }: { place: IPlace | undefined }) {
   });
 
   const onSubmit = form.handleSubmit(async (data: PlaceType) => {
-    let response, error;
+    try {
+      let response = undefined;
 
-    if (params?.id) {
-      const { data: updatedPlace, error: updateError } = await supabase
-        .from("Place")
-        .update({
-          name: data.name,
-          shortName: data.shortName,
-          color: data.color,
-        })
-        .eq("id", params.id)
-        .select()
-        .single();
-
-      response = updatedPlace;
-      error = updateError;
-    } else {
-      // 🟢 INSERT
-      const { data: newPlace, error: insertError } = await supabase
-        .from("Place")
-        .insert([
+      if (params?.id) {
+        response = await apiService.update<PlaceType, IPlace>(
+          "Place",
+          params.id,
           {
             name: data.name,
             shortName: data.shortName,
             color: data.color,
-          },
-        ])
-        .select()
-        .single();
+          }
+        );
+      } else {
+        response = await apiService.create<PlaceType, IPlace>("Place", {
+          name: data.name,
+          shortName: data.shortName,
+          color: data.color,
+        });
+      }
 
-      response = newPlace;
-      error = insertError;
+      if (!response.status) {
+        console.error("Error al guardar el lugar:", response.message);
+        return;
+      }
+
+      console.log("Lugar guardado exitosamente:", response.response);
+      router.refresh();
+      router.push("/config/places");
+    } catch (error) {
+      console.error("Error inesperado al guardar el lugar:", error);
     }
-
-    if (error) {
-      console.error("Error al guardar el lugar:", error.message);
-      return;
-    }
-
-    console.log("Lugar guardado exitosamente:", response);
-    router.refresh();
-    router.push("/config/places");
   });
 
   return (

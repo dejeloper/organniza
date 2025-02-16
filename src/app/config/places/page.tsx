@@ -4,7 +4,7 @@ import { PagesWrapper } from "@/components/shared/wrapper/wrapper";
 import { buttonVariants } from "@/components/ui/button";
 import { IBreadcrumbBar } from "@/interfaces/shared/IBreadcrumb";
 import { IPlace } from "@/interfaces/shared/IPlace";
-import { supabase } from "@/lib/supabaseClient";
+import { apiService } from "@/services/apiServices";
 import Link from "next/link";
 
 async function ListConfigPlacesPage() {
@@ -17,12 +17,12 @@ async function ListConfigPlacesPage() {
   let places: IPlace[] = [];
 
   try {
-    const { data, error } = await supabase.from("Place").select("*"); // 🔥 Consulta directa a Supabase
+    const response = await apiService.getAll<IPlace>("Place");
 
-    if (error) {
-      console.error("Error al obtener los lugares:", error.message);
-    } else if (Array.isArray(data)) {
-      places = data as IPlace[];
+    if (!response.status) {
+      console.error("Error al obtener los lugares:", response.message);
+    } else {
+      places = response.response;
     }
   } catch (error) {
     console.error("Error inesperado al obtener los lugares", error);
