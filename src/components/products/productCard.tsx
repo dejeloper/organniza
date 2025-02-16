@@ -6,6 +6,7 @@ import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { IProduct } from "@/interfaces/schemas/IProduct";
 import PriceChangeIndicator from "./priceChangeIndicator";
 import Image from "next/image";
+import { apiService } from "@/services/apiServices";
 
 export function ProductCard({ product }: { product: IProduct }) {
   const router = useRouter();
@@ -20,7 +21,7 @@ export function ProductCard({ product }: { product: IProduct }) {
 
     if (!isConfirmed) return;
 
-    const responseProduct = await null; //  apiService.delete<IProduct>("products", id);
+    const responseProduct = await apiService.delete<IProduct>("products", id);
 
     if (!responseProduct.status) {
       console.log(responseProduct.message);
@@ -73,11 +74,15 @@ export function ProductCard({ product }: { product: IProduct }) {
           </p>
           <p className="text-red-500 text-xs mt-2">⚠️ Pendiente por comprar</p>
           <div className="flex items-center mt-2">
-            <img
-              src="https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+            <Image
+              src="/profile/anny.avif"
               className="w-9 h-9 rounded-full border-2 border-gray-900"
+              alt="Anny"
               title="Anny"
+              width={40}
+              height={40}
             />
+
             <span className="text-xs ml-3">
               Editado: <span className="font-semibold">Anny</span>
             </span>

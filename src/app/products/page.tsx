@@ -5,6 +5,7 @@ import { IBreadcrumbBar } from "@/interfaces/shared/IBreadcrumb";
 import { ProductCard } from "@/components/products/productCard";
 import { IProduct } from "@/interfaces/schemas/IProduct";
 import { Metadata } from "next";
+import { apiService } from "@/services/apiServices";
 
 export const metadata: Metadata = {
   title: "Productos | Organniza",
@@ -18,12 +19,12 @@ async function ListProductsPage() {
   ];
 
   let products: IProduct[] = [];
-
+  console.log(products);
   try {
-    const responseProducts = await null; //apiService.getAll<IProduct[]>("products");
+    const responseProducts = await apiService.getAll<IProduct[]>("products");
 
     if (responseProducts.status && Array.isArray(responseProducts.response)) {
-      products = responseProducts.response as IProduct[];
+      // products = responseProducts.response ;
     } else {
       console.log(responseProducts.message);
     }

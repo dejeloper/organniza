@@ -28,6 +28,7 @@ import { z } from "zod";
 import { IUnit } from "@/interfaces/shared/IUnit";
 import { IPlace } from "@/interfaces/shared/IPlace";
 import { IProductStatus } from "@/interfaces/shared/IStatus";
+import { apiService } from "@/services/apiServices";
 
 const units: IUnit[] = [
   { id: 1, name: "Kilogramo", nemonico: "kg" },
@@ -96,18 +97,16 @@ function NewProductForm({ product }: { product: IProduct | undefined }) {
     let responseProduct;
     console.log(data);
     if (params?.id) {
-      responseProduct = await null;
-      // apiService.update<Partial<IProduct>, IProduct>(
-      //   "products",
-      //   Number(params.id),
-      //   data as IProduct
-      // );
+      responseProduct = await apiService.update<Partial<IProduct>, IProduct>(
+        "products",
+        Number(params.id),
+        data as IProduct
+      );
     } else {
-      responseProduct = await null;
-      // apiService.create<IProduct, IProduct>(
-      //   "products",
-      //   data as IProduct
-      // );
+      responseProduct = await apiService.create<IProduct, IProduct>(
+        "products",
+        data as IProduct
+      );
     }
 
     if (!responseProduct.status) {

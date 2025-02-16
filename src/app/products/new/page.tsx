@@ -5,6 +5,7 @@ import { IBreadcrumbBar } from "@/interfaces/shared/IBreadcrumb";
 import { IProduct } from "@/interfaces/schemas/IProduct";
 import { redirect } from "next/navigation";
 import { Metadata } from "next";
+import { apiService } from "@/services/apiServices";
 
 export const metadata: Metadata = {
   title: "Crear Producto | Organniza",
@@ -22,11 +23,10 @@ async function NewProductPage({ params }: ProductProps) {
 
   if (id) {
     try {
-      const responseProduct = await null;
-      // apiService.getById<IProduct>(
-      //   "products",
-      //   id
-      // );
+      const responseProduct = await apiService.getById<IProduct>(
+        "products",
+        id
+      );
 
       if (responseProduct.status && responseProduct.response) {
         product = responseProduct.response;
