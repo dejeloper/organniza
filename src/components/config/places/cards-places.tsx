@@ -10,7 +10,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { IPlace } from "@/interfaces/shared/IPlace";
 import { useRouter } from "next/navigation";
-import { apiService } from "@/services/apiServices";
+import { supabase } from "@/lib/supabaseClient";
 
 interface CardsPlacesProps {
   places: IPlace[];
@@ -29,10 +29,10 @@ export default function CardsPlaces({ places }: CardsPlacesProps) {
 
     if (!isConfirmed) return;
 
-    const responsePlace = await apiService.delete<IPlace>("places", id);
+    const { error } = await supabase.from("Place").delete().eq("id", id);
 
-    if (!responsePlace.status) {
-      console.log(responsePlace.message);
+    if (error) {
+      console.log("Error al eliminar el lugar:", error.message);
       return;
     }
 
@@ -72,20 +72,23 @@ export default function CardsPlaces({ places }: CardsPlacesProps) {
           <CardFooter className="flex justify-between gap-3 mt-5 py-0 px-6">
             <Button
               variant="outline"
-              className="border border-blue-500 px-4 py-2 rounded-lg hover:bg-blue-500 transition"
+              className="border border-blue-500 px-3 py-1 rounded-lg hover:bg-blue-500 transition"
+              onClick={(e) => {
+                e.stopPropagation();
+                router.push(`/config/places/${place.id}/edit`);
+              }}
             >
-              ✏️ Editar
+              ✏️
             </Button>
             <Button
               variant="outline"
-              className="border border-red-500 px-4 py-2 rounded-lg hover:bg-red-500/60 transition"
+              className="border border-red-500 px-3 py-1 rounded-lg hover:bg-red-500/60 transition"
               onClick={(e) => {
                 e.stopPropagation();
-                if (!place.id) return;
                 handlerRemovePlace(place.id);
               }}
             >
-              ❌ Eliminar
+              ❌
             </Button>
           </CardFooter>
         </Card>

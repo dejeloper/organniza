@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Table,
   TableBody,
@@ -8,12 +10,36 @@ import {
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { IPlace } from "@/interfaces/shared/IPlace";
+import { useRouter } from "next/navigation";
+import { supabase } from "@/lib/supabaseClient";
 
 interface TablePlacesProps {
   places: IPlace[];
 }
 
 export default function TablePlaces({ places }: TablePlacesProps) {
+  const router = useRouter();
+  if (!places) return null;
+
+  const handlerRemovePlace = async (id?: number) => {
+    if (!id) return;
+
+    const isConfirmed = confirm(
+      "¿Estás seguro de que deseas eliminar este lugar?"
+    );
+
+    if (!isConfirmed) return;
+
+    const { error } = await supabase.from("Place").delete().eq("id", id);
+
+    if (error) {
+      console.log("Error al eliminar el lugar:", error.message);
+      return;
+    }
+
+    router.refresh();
+  };
+
   return (
     <div className="overflow-x-auto hidden md:block">
       <Table>
@@ -54,12 +80,20 @@ export default function TablePlaces({ places }: TablePlacesProps) {
                 <Button
                   variant="outline"
                   className="border border-blue-500 px-3 py-1 rounded-lg hover:bg-blue-500 transition"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    router.push(`/config/places/${place.id}/edit`);
+                  }}
                 >
                   ✏️
                 </Button>
                 <Button
                   variant="outline"
                   className="border border-red-500 px-3 py-1 rounded-lg hover:bg-red-500/60 transition"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handlerRemovePlace(place.id);
+                  }}
                 >
                   ❌
                 </Button>
