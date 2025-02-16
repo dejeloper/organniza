@@ -20,6 +20,7 @@ async function ListProductsPage() {
 
   let products: IProduct[] = [];
   console.log(products);
+  products = undefined;
   try {
     const responseProducts = await apiService.getAll<IProduct[]>("products");
 
