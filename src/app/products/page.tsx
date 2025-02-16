@@ -2,7 +2,6 @@ import Link from "next/link";
 import { PagesWrapper } from "@/components/shared/wrapper/wrapper";
 import { buttonVariants } from "@/components/ui/button";
 import { IBreadcrumbBar } from "@/interfaces/shared/IBreadcrumb";
-import { apiService } from "@/services/apiServices";
 import { ProductCard } from "@/components/products/productCard";
 import { IProduct } from "@/interfaces/schemas/IProduct";
 import { Metadata } from "next";
@@ -21,7 +20,7 @@ async function ListProductsPage() {
   let products: IProduct[] = [];
 
   try {
-    const responseProducts = await apiService.getAll<IProduct[]>("products");
+    const responseProducts = await null; //apiService.getAll<IProduct[]>("products");
 
     if (responseProducts.status && Array.isArray(responseProducts.response)) {
       products = responseProducts.response as IProduct[];

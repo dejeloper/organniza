@@ -21,7 +21,6 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { apiService } from "@/services/apiServices";
 import { useParams, useRouter } from "next/navigation";
 import { IProduct } from "@/interfaces/schemas/IProduct";
 import { ICategory } from "@/interfaces/ICategory";
@@ -95,17 +94,20 @@ function NewProductForm({ product }: { product: IProduct | undefined }) {
 
   const onSubmit = form.handleSubmit(async (data: ProductType) => {
     let responseProduct;
+    console.log(data);
     if (params?.id) {
-      responseProduct = await apiService.update<Partial<IProduct>, IProduct>(
-        "products",
-        Number(params.id),
-        data as IProduct
-      );
+      responseProduct = await null;
+      // apiService.update<Partial<IProduct>, IProduct>(
+      //   "products",
+      //   Number(params.id),
+      //   data as IProduct
+      // );
     } else {
-      responseProduct = await apiService.create<IProduct, IProduct>(
-        "products",
-        data as IProduct
-      );
+      responseProduct = await null;
+      // apiService.create<IProduct, IProduct>(
+      //   "products",
+      //   data as IProduct
+      // );
     }
 
     if (!responseProduct.status) {
