@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import {
   Table,
   TableBody,
@@ -12,7 +13,6 @@ import { Button } from "@/components/ui/button";
 import { IPlace } from "@/interfaces/shared/IPlace";
 import { useRouter } from "next/navigation";
 import { apiService } from "@/services/apiServices";
-import { useState } from "react";
 
 interface TablePlacesProps {
   places: IPlace[];
