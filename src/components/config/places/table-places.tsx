@@ -93,6 +93,8 @@ export default function TablePlaces({
                       e.stopPropagation();
                       router.push(`/config/places/${place.id}/edit`);
                     }}
+                    title="Editar lugar"
+                    aria-label="Editar lugar"
                   >
                     ✏️
                   </Button>
@@ -103,6 +105,8 @@ export default function TablePlaces({
                       e.stopPropagation();
                       handlerRemovePlace(place.id);
                     }}
+                    title="Eliminar lugar"
+                    aria-label="Eliminar lugar"
                   >
                     ❌
                   </Button>
