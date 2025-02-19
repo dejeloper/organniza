@@ -13,6 +13,7 @@ import { IPlace } from "@/interfaces/shared/IPlace";
 import { useRouter } from "next/navigation";
 import { apiService } from "@/services/apiServices";
 import { motion } from "framer-motion";
+import { useToast } from "@/hooks/use-toast";
 
 interface CardsPlacesProps {
   places: IPlace[];
@@ -27,8 +28,11 @@ export default function CardsPlaces({
 
   if (!places) return null;
 
+  const { toast } = useToast();
+
   const handlerRemovePlace = async (id?: number) => {
     if (!id) return;
+
     const isConfirmed = confirm(
       "¿Estás seguro de que deseas eliminar este lugar?"
     );
@@ -44,9 +48,17 @@ export default function CardsPlaces({
         throw new Error(response.message);
       }
 
-      console.log("Lugar eliminado exitosamente.");
+      toast({
+        title: "Lugar eliminado",
+        description: "El lugar ha sido eliminado correctamente.",
+        variant: "success",
+      });
     } catch (error) {
-      console.error("Error inesperado al eliminar el lugar:", error);
+      toast({
+        title: "Error",
+        description: "No se pudo eliminar el lugar.",
+        variant: "destructive",
+      });
       setPlaces(initialPlaces);
     } finally {
       setLoading(null);
