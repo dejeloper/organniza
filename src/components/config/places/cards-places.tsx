@@ -25,10 +25,9 @@ export default function CardsPlaces({
   const router = useRouter();
   const [places, setPlaces] = useState<IPlace[]>(initialPlaces);
   const [loading, setLoading] = useState<number | null>(null);
+  const { toast } = useToast();
 
   if (!places) return null;
-
-  const { toast } = useToast();
 
   const handlerRemovePlace = async (id?: number) => {
     if (!id) return;
@@ -54,6 +53,7 @@ export default function CardsPlaces({
         variant: "success",
       });
     } catch (error) {
+      console.error("Error al eliminar el lugar:", error);
       toast({
         title: "Error",
         description: "No se pudo eliminar el lugar.",
@@ -108,7 +108,7 @@ export default function CardsPlaces({
                   className="w-1/2 border border-blue-500 px-4 py-2 rounded-lg transition hover:bg-blue-500 hover:text-white"
                   onClick={(e) => {
                     e.stopPropagation();
-                    router.push(`/products/${place.id}/edit`);
+                    router.push(`/config/places/${place.id}/edit`);
                   }}
                 >
                   ✏️ Editar
@@ -123,7 +123,6 @@ export default function CardsPlaces({
                   }`}
                   onClick={(e) => {
                     e.stopPropagation();
-                    if (!place.id) return;
                     handlerRemovePlace(place.id);
                   }}
                 >
@@ -139,7 +138,6 @@ export default function CardsPlaces({
             <CardTitle className="text-lg font-semibold dark:text-white text-black">
               No hay lugares disponibles
             </CardTitle>
-            z{" "}
           </CardHeader>
         </Card>
       )}

@@ -25,10 +25,9 @@ export default function TablePlaces({
   const router = useRouter();
   const [places, setPlaces] = useState<IPlace[]>(initialPlaces);
   const [loading, setLoading] = useState<number | null>(null);
+  const { toast } = useToast();
 
   if (!places) return null;
-
-  const { toast } = useToast();
 
   const handlerRemovePlace = async (id?: number) => {
     if (!id) return;
@@ -54,6 +53,7 @@ export default function TablePlaces({
         variant: "success",
       });
     } catch (error) {
+      console.error("Error al eliminar el lugar:", error);
       toast({
         title: "Error",
         description: "No se pudo eliminar el lugar.",
@@ -107,7 +107,7 @@ export default function TablePlaces({
                 <TableCell className="text-center border dark:border-gray-600 border-gray-300">
                   {place.enabled ? "✅" : "❌"}
                 </TableCell>
-                <TableCell className="flex gap-2 justify-center border dark:border-gray-600 border-gray-300">
+                <TableCell className="inline-flex gap-2 justify-center border dark:border-gray-600 border-gray-300">
                   <Button
                     variant="outline"
                     className="border border-blue-500 px-3 py-1 rounded-lg transition hover:bg-blue-500/60 hover:text-white"
