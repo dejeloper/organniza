@@ -25,7 +25,8 @@ export const apiService = {
 		const {data, error} = await supabase
 			.from(collection)
 			.select("*")
-			.order("createdAt", {ascending: false});
+			.order("createdAt", {ascending: false})
+			.abortSignal(new AbortController().signal);
 
 		return error ? handleError(error) : {status: true, message: "Datos obtenidos", response: data ?? []};
 	},

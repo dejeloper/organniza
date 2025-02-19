@@ -1,3 +1,6 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import CardsPlaces from "@/components/config/places/cards-places";
 import TablePlaces from "@/components/config/places/table-places";
 import { PagesWrapper } from "@/components/shared/wrapper/wrapper";
@@ -7,26 +10,34 @@ import { IPlace } from "@/interfaces/shared/IPlace";
 import { apiService } from "@/services/apiServices";
 import Link from "next/link";
 
-async function ListConfigPlacesPage() {
+export default function ListConfigPlacesPage() {
   const menuBreadcrumb: IBreadcrumbBar[] = [
     { name: "Inicio", href: "/" },
     { name: "Configuración", href: "/config" },
     { name: "Lugares", href: "#" },
   ];
 
-  let places: IPlace[] = [];
+  const [places, setPlaces] = useState<IPlace[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  try {
-    const response = await apiService.getAll<IPlace>("Place");
+  useEffect(() => {
+    const fetchPlaces = async () => {
+      setLoading(true);
+      try {
+        const response = await apiService.getAll<IPlace>("Place");
+        if (response.status) {
+          setPlaces(response.response);
+        } else {
+          console.error("Error al obtener lugares:", response.message);
+        }
+      } catch (error) {
+        console.error("Error inesperado al obtener los lugares", error);
+      }
+      setLoading(false);
+    };
 
-    if (!response.status) {
-      console.error("Error al obtener los lugares:", response.message);
-    } else {
-      places = response.response;
-    }
-  } catch (error) {
-    console.error("Error inesperado al obtener los lugares", error);
-  }
+    fetchPlaces();
+  }, []);
 
   return (
     <PagesWrapper menuBreadcrumb={menuBreadcrumb}>
@@ -49,7 +60,9 @@ async function ListConfigPlacesPage() {
           </Link>
         </div>
 
-        {places && places.length > 0 ? (
+        {loading ? (
+          <p className="text-center">Cargando...</p>
+        ) : places.length > 0 ? (
           <>
             <CardsPlaces places={places} />
             <TablePlaces places={places} />
@@ -63,5 +76,3 @@ async function ListConfigPlacesPage() {
     </PagesWrapper>
   );
 }
-
-export default ListConfigPlacesPage;
